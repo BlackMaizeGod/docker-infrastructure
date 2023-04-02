@@ -23,7 +23,7 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 137.172.17.0/24
+        - subnet: 137.172.0.0/16
 
 services:
 #  mysql56:
@@ -31,48 +31,36 @@ services:
 #    image: mysql:5.6
 #    restart: always
 #    networks:
-#      bridge:
-#        ipv4_address: 137.172.17.56
-#    ports:
-#      - '3356:3306'
+#      - bridge
 #    environment:
 #      - MYSQL_ROOT_PASSWORD=root
 #      - MYSQL_PASSWORD=root
 #    volumes:
 #      - mysql56_volume:/var/lib/mysql
-#      - ./db.cnf:/etc/my.cnf
 
   mysql57:
     container_name: mysql57
     image: mysql:5.7
     restart: always
     networks:
-      bridge:
-        ipv4_address: 137.172.17.57
-    ports:
-      - '3357:3306'
+      - bridge
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_PASSWORD=root
     volumes:
       - mysql57_volume:/var/lib/mysql
-      - ./db.cnf:/etc/my.cnf
 
 #  mysql80:
 #    container_name: mysql80
 #    image: mysql:8.0
 #    restart: always
 #    networks:
-#      bridge:
-#        ipv4_address: 137.172.17.80
-#    ports:
-#      - '3380:3306'
+#      - bridge
 #    environment:
 #      - MYSQL_ROOT_PASSWORD=root
 #      - MYSQL_PASSWORD=root
 #    volumes:
 #      - mysql80_volume:/var/lib/mysql
-#      - ./db.cnf:/etc/my.cnf
 
 #  mariadb101:
 #    container_name: mariadb101
@@ -80,16 +68,12 @@ services:
 #    user: root
 #    restart: always
 #    networks:
-#      bridge:
-#        ipv4_address: 137.172.17.101
-#    ports:
-#      - '33101:3306'
+#      - bridge
 #    environment:
 #      - MARIADB_ROOT_USER=root
 #      - MARIADB_ROOT_PASSWORD=root
 #    volumes:
 #      - mariadb101_volume:/bitnami/mariadb
-#      - ./db.cnf:/etc/my.cnf
 
 #  mariadb102:
 #    container_name: mariadb102
@@ -97,16 +81,12 @@ services:
 #    user: root
 #    restart: always
 #    networks:
-#      bridge:
-#        ipv4_address: 137.172.17.102
-#    ports:
-#      - '33102:3306'
+#      - bridge
 #    environment:
 #      - MARIADB_ROOT_USER=root
 #      - MARIADB_ROOT_PASSWORD=root
 #    volumes:
 #      - mariadb102_volume:/bitnami/mariadb
-#      - ./db.cnf:/etc/my.cnf
 
 #  mariadb103:
 #    container_name: mariadb103
@@ -114,16 +94,12 @@ services:
 #    user: root
 #    restart: always
 #    networks:
-#      bridge:
-#        ipv4_address: 137.172.17.103
-#    ports:
-#      - '33103:3306'
+#      - bridge
 #    environment:
 #      - MARIADB_ROOT_USER=root
 #      - MARIADB_ROOT_PASSWORD=root
 #    volumes:
 #      - mariadb103_volume:/bitnami/mariadb
-#      - ./db.cnf:/etc/my.cnf
 
 #  mariadb104:
 #    container_name: mariadb104
@@ -131,16 +107,12 @@ services:
 #    user: root
 #    restart: always
 #    networks:
-#      bridge:
-#        ipv4_address: 137.172.17.104
-#    ports:
-#      - '33104:3306'
+#      - bridge
 #    environment:
 #      - MARIADB_ROOT_USER=root
 #      - MARIADB_ROOT_PASSWORD=root
 #    volumes:
 #      - mariadb104_volume:/bitnami/mariadb
-#      - ./db.cnf:/etc/my.cnf
 
   phpmyadmin:
     container_name: phpmyadmin
@@ -164,7 +136,7 @@ services:
 #      - mariadb104:mariadb104
     networks:
       bridge:
-        ipv4_address: 137.172.17.178
+        ipv4_address: 137.172.17.81
     environment:
       - PMA_HOSTS=mysql57,mysql80,mysql56,mariadb101,mariadb102,mariadb103,mariadb104
       - PMA_USER=root
@@ -182,20 +154,22 @@ services:
 #      - php7.2-fpm
 #      - php7.3-fpm
       - php7.4-fpm
-#      - php8.0-fpm
+#      - php8.1-fpm
+#      - php8.2-fpm
     links:
 #      - php7.2-fpm:php7.2-fpm
 #      - php7.3-fpm:php7.3-fpm
       - php7.4-fpm:php7.4-fpm
-#      - php8.0-fpm:php8.0-fpm
+#      - php8.1-fpm:php8.1-fpm
+#      - php8.2-fpm:php8.2-fpm
     networks:
       bridge:
-        ipv4_address: 137.172.17.81
+        ipv4_address: 137.172.17.80
     ports:
       - '8080:80'
     volumes:
-      - ./hosts:/etc/nginx/conf.d
-      - ~/apps:/var/www
+      - /var/www/hosts:/etc/nginx/conf.d
+      - /var/www/html:/var/www/html
 
 #  php7.2-fpm:
 #    container_name: php7.2-fpm
@@ -203,20 +177,18 @@ services:
 #      context: https://github.com/BlackMaizeGod/php-fpm-docker-service.git
 #      dockerfile: Dockerfile
 #      args:
-#        PHP_VERSION: 7.2
+#        CONTAINER_VERSION: 72
 #    restart: always
 #    depends_on:
 #      - mailhog
 #    links:
 #      - mailhog:mailhog
 #    networks:
-#      bridge:
-#        ipv4_address: 137.172.17.72
-#    extra_hosts:
-#      - host.docker.internal:137.172.17.1
+#      - bridge
+#    environment:
+#      XDEBUG: 'on'
 #    volumes:
-#      - ~/apps:/var/www
-#      - ./php.ini:/usr/local/etc/php/conf.d/php.ini
+#      - /var/www/html:/var/www/html
 
 #  php7.3-fpm:
 #    container_name: php7.3-fpm
@@ -224,20 +196,18 @@ services:
 #      context: https://github.com/BlackMaizeGod/php-fpm-docker-service.git
 #      dockerfile: Dockerfile
 #      args:
-#        PHP_VERSION: 7.3
+#        CONTAINER_VERSION: 73
 #    restart: always
 #    depends_on:
 #      - mailhog
 #    links:
 #      - mailhog:mailhog
 #    networks:
-#      bridge:
-#        ipv4_address: 137.172.17.73
-#    extra_hosts:
-#      - host.docker.internal:137.172.17.1
+#      - bridge
+#    environment:
+#      XDEBUG: 'on'
 #    volumes:
-#      - ~/apps:/var/www
-#      - ./php.ini:/usr/local/etc/php/conf.d/php.ini
+#      - /var/www/html:/var/www/html
 
   php7.4-fpm:
     container_name: php7.4-fpm
@@ -245,41 +215,56 @@ services:
       context: https://github.com/BlackMaizeGod/php-fpm-docker-service.git
       dockerfile: Dockerfile
       args:
-        PHP_VERSION: 7.4
+        CONTAINER_VERSION: 74
     restart: always
     depends_on:
       - mailhog
     links:
       - mailhog:mailhog
     networks:
-      bridge:
-        ipv4_address: 137.172.17.74
-    extra_hosts:
-      - host.docker.internal:137.172.17.1
+      - bridge
+    environment:
+      XDEBUG: 'on'
     volumes:
-      - ~/apps:/var/www
-      - ./php.ini:/usr/local/etc/php/conf.d/php.ini
+      - /var/www/html:/var/www/html
 
-#  php8.0-fpm:
-#    container_name: php8.0-fpm
+#  php8.1-fpm:
+#    container_name: php8.1-fpm
 #    build:
 #      context: https://github.com/BlackMaizeGod/php-fpm-docker-service.git
 #      dockerfile: Dockerfile
 #      args:
-#        PHP_VERSION: 8.0
+#        CONTAINER_VERSION: 81
 #    restart: always
 #    depends_on:
 #      - mailhog
 #    links:
 #      - mailhog:mailhog
 #    networks:
-#      bridge:
-#        ipv4_address: 137.172.17.83
-#    extra_hosts:
-#      - host.docker.internal:137.172.17.1
+#      - bridge
+#    environment:
+#      XDEBUG: 'on'
 #    volumes:
-#      - ~/apps:/var/www
-#      - ./php.ini:/usr/local/etc/php/conf.d/php.ini
+#      - /var/www/html:/var/www/html
+
+#  php8.2-fpm:
+#    container_name: php8.2-fpm
+#    build:
+#      context: https://github.com/BlackMaizeGod/php-fpm-docker-service.git
+#      dockerfile: Dockerfile
+#      args:
+#        CONTAINER_VERSION: 82
+#    restart: always
+#    depends_on:
+#      - mailhog
+#    links:
+#      - mailhog:mailhog
+#    networks:
+#      - bridge
+#    environment:
+#      XDEBUG: 'on'
+#    volumes:
+#      - /var/www/html:/var/www/html
 
   mailhog:
     container_name: mailhog
@@ -296,8 +281,8 @@ services:
       - mailhog_volume:/maildir
     command: ['-storage=maildir', '-maildir-path=/maildir']
 
-  elasticsearch:
-    container_name: elasticsearch
+  elasticsearch7:
+    container_name: elasticsearch7
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.1
     restart: always
     networks:
@@ -320,16 +305,14 @@ services:
 #    image: redis:latest
 #    restart: always
 #    networks:
-#      bridge:
-#        ipv4_address: 137.172.17.79
-#
+#      - bridge
+
 #  memcached:
 #    container_name: memcached
 #    image: memcached:1.5
 #    restart: always
 #    networks:
-#      bridge:
-#        ipv4_address: 137.172.17.11
+#      - bridge
 
   #TODO Varnish
   #TODO RabbitMQ
