@@ -4,4 +4,5 @@ Infrastructure for locally development. It based on Nginx(HTTP only) and PHP-FPM
 For correctly installation use https://github.com/BlackMaizeGod/install_docker_infrastructure.
 
 ### Notices:
-- For debug cli area into docker container - configure project inside suitable docker container via `export PHP_IDE_CONFIG="serverName=<SomeName>"`. Debug cli area outside docker container will works as expected, without any extra configurations.
+- To connect to the Redis use: `redis-cli -h $(getContainerAddress redis) -p 6379 -a <password>`
+- To connect to the Memcached use: `echo stats | nc $(getContainerAddress memcached) 11211`
