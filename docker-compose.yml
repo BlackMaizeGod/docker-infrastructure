@@ -177,11 +177,7 @@ services:
 
 #  php7.2-fpm:
 #    container_name: php7.2-fpm
-#    build:
-#      context: https://github.com/BlackMaizeGod/php-fpm-docker-service.git
-#      dockerfile: Dockerfile
-#      args:
-#        CONTAINER_VERSION: 72
+#    image: blackmaizegod/php-fpm:7.2
 #    restart: always
 #    depends_on:
 #      - mailhog
@@ -189,18 +185,12 @@ services:
 #      - mailhog:mailhog
 #    networks:
 #      - bridge
-#    environment:
-#      XDEBUG: 'on'
 #    volumes:
 #      - /var/www/html:/var/www/html
 
 #  php7.3-fpm:
 #    container_name: php7.3-fpm
-#    build:
-#      context: https://github.com/BlackMaizeGod/php-fpm-docker-service.git
-#      dockerfile: Dockerfile
-#      args:
-#        CONTAINER_VERSION: 73
+#    image: blackmaizegod/php-fpm:7.3
 #    restart: always
 #    depends_on:
 #      - mailhog
@@ -208,18 +198,12 @@ services:
 #      - mailhog:mailhog
 #    networks:
 #      - bridge
-#    environment:
-#      XDEBUG: 'on'
 #    volumes:
 #      - /var/www/html:/var/www/html
 
   php7.4-fpm:
     container_name: php7.4-fpm
-    build:
-      context: https://github.com/BlackMaizeGod/php-fpm-docker-service.git
-      dockerfile: Dockerfile
-      args:
-        CONTAINER_VERSION: 74
+    image: blackmaizegod/php-fpm:7.4
     restart: always
     depends_on:
       - mailhog
@@ -227,18 +211,12 @@ services:
       - mailhog:mailhog
     networks:
       - bridge
-    environment:
-      XDEBUG: 'on'
     volumes:
       - /var/www/html:/var/www/html
 
 #  php8.1-fpm:
 #    container_name: php8.1-fpm
-#    build:
-#      context: https://github.com/BlackMaizeGod/php-fpm-docker-service.git
-#      dockerfile: Dockerfile
-#      args:
-#        CONTAINER_VERSION: 81
+#    image: blackmaizegod/php-fpm:8.1
 #    restart: always
 #    depends_on:
 #      - mailhog
@@ -246,18 +224,12 @@ services:
 #      - mailhog:mailhog
 #    networks:
 #      - bridge
-#    environment:
-#      XDEBUG: 'on'
 #    volumes:
 #      - /var/www/html:/var/www/html
 
 #  php8.2-fpm:
 #    container_name: php8.2-fpm
-#    build:
-#      context: https://github.com/BlackMaizeGod/php-fpm-docker-service.git
-#      dockerfile: Dockerfile
-#      args:
-#        CONTAINER_VERSION: 82
+#    image: blackmaizegod/php-fpm:8.2
 #    restart: always
 #    depends_on:
 #      - mailhog
@@ -265,8 +237,6 @@ services:
 #      - mailhog:mailhog
 #    networks:
 #      - bridge
-#    environment:
-#      XDEBUG: 'on'
 #    volumes:
 #      - /var/www/html:/var/www/html
 
