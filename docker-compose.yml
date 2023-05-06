@@ -169,9 +169,11 @@ services:
         ipv4_address: 137.172.17.80
     ports:
       - '8080:80'
+      - '443:443'
     volumes:
       - /var/www/hosts:/etc/nginx/conf.d
       - /var/www/html:/var/www/html
+      - /var/www/ssl:/var/www/ssl
 
 #  php7.2-fpm:
 #    container_name: php7.2-fpm
