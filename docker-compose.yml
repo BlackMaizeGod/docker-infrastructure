@@ -31,7 +31,7 @@ services:
 #  mysql56:
 #    container_name: mysql56
 #    image: mysql:5.6
-#    restart: always
+#    restart: unless-stopped
 #    networks:
 #      - bridge
 #    environment:
@@ -43,7 +43,7 @@ services:
   mysql57:
     container_name: mysql57
     image: mysql:5.7
-    restart: always
+    restart: unless-stopped
     networks:
       - bridge
     environment:
@@ -55,7 +55,7 @@ services:
 #  mysql80:
 #    container_name: mysql80
 #    image: mysql:8.0
-#    restart: always
+#    restart: unless-stopped
 #    networks:
 #      - bridge
 #    environment:
@@ -68,7 +68,7 @@ services:
 #    container_name: mariadb101
 #    image: bitnami/mariadb:10.1
 #    user: root
-#    restart: always
+#    restart: unless-stopped
 #    networks:
 #      - bridge
 #    environment:
@@ -81,7 +81,7 @@ services:
 #    container_name: mariadb102
 #    image: bitnami/mariadb:10.2
 #    user: root
-#    restart: always
+#    restart: unless-stopped
 #    networks:
 #      - bridge
 #    environment:
@@ -94,7 +94,7 @@ services:
 #    container_name: mariadb103
 #    image: bitnami/mariadb:10.3
 #    user: root
-#    restart: always
+#    restart: unless-stopped
 #    networks:
 #      - bridge
 #    environment:
@@ -107,7 +107,7 @@ services:
 #    container_name: mariadb104
 #    image: bitnami/mariadb:10.4
 #    user: root
-#    restart: always
+#    restart: unless-stopped
 #    networks:
 #      - bridge
 #    environment:
@@ -119,23 +119,7 @@ services:
   phpmyadmin:
     container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin
-    restart: always
-    depends_on:
-#      - mysql56
-      - mysql57
-#      - mysql80
-#      - mariadb101
-#      - mariadb102
-#      - mariadb103
-#      - mariadb104
-    links:
-#      - mysql56:mysql56
-      - mysql57:mysql57
-#      - mysql80:mysql80
-#      - mariadb101:mariadb101
-#      - mariadb102:mariadb102
-#      - mariadb103:mariadb103
-#      - mariadb104:mariadb104
+    restart: unless-stopped
     networks:
       bridge:
         ipv4_address: 137.172.17.81
@@ -150,26 +134,13 @@ services:
   nginx:
     container_name: nginx
     image: nginx:latest
-    restart: always
-    depends_on:
-      - phpmyadmin
-#      - php7.2-fpm
-#      - php7.3-fpm
-      - php7.4-fpm
-#      - php8.1-fpm
-#      - php8.2-fpm
-    links:
-#      - php7.2-fpm:php7.2-fpm
-#      - php7.3-fpm:php7.3-fpm
-      - php7.4-fpm:php7.4-fpm
-#      - php8.1-fpm:php8.1-fpm
-#      - php8.2-fpm:php8.2-fpm
+    restart: unless-stopped
     networks:
       bridge:
         ipv4_address: 137.172.17.80
     ports:
-      - '8080:80'
-      - '443:443'
+      - 8080:80
+      - 443:443
     volumes:
       - /var/www/hosts:/etc/nginx/conf.d
       - /var/www/html:/var/www/html
@@ -178,11 +149,7 @@ services:
 #  php7.2-fpm:
 #    container_name: php7.2-fpm
 #    image: blackmaizegod/php-fpm:7.2
-#    restart: always
-#    depends_on:
-#      - mailhog
-#    links:
-#      - mailhog:mailhog
+#    restart: unless-stopped
 #    networks:
 #      - bridge
 #    volumes:
@@ -191,11 +158,7 @@ services:
 #  php7.3-fpm:
 #    container_name: php7.3-fpm
 #    image: blackmaizegod/php-fpm:7.3
-#    restart: always
-#    depends_on:
-#      - mailhog
-#    links:
-#      - mailhog:mailhog
+#    restart: unless-stopped
 #    networks:
 #      - bridge
 #    volumes:
@@ -204,11 +167,7 @@ services:
   php7.4-fpm:
     container_name: php7.4-fpm
     image: blackmaizegod/php-fpm:7.4
-    restart: always
-    depends_on:
-      - mailhog
-    links:
-      - mailhog:mailhog
+    restart: unless-stopped
     networks:
       - bridge
     volumes:
@@ -217,11 +176,7 @@ services:
 #  php8.1-fpm:
 #    container_name: php8.1-fpm
 #    image: blackmaizegod/php-fpm:8.1
-#    restart: always
-#    depends_on:
-#      - mailhog
-#    links:
-#      - mailhog:mailhog
+#    restart: unless-stopped
 #    networks:
 #      - bridge
 #    volumes:
@@ -230,11 +185,7 @@ services:
 #  php8.2-fpm:
 #    container_name: php8.2-fpm
 #    image: blackmaizegod/php-fpm:8.2
-#    restart: always
-#    depends_on:
-#      - mailhog
-#    links:
-#      - mailhog:mailhog
+#    restart: unless-stopped
 #    networks:
 #      - bridge
 #    volumes:
@@ -244,13 +195,13 @@ services:
     container_name: mailhog
     image: mailhog/mailhog:v1.0.1
     user: root
-    restart: always
+    restart: unless-stopped
     networks:
       bridge:
         ipv4_address: 137.172.17.25
     ports:
-      - '1025:1025'
-      - '8025:8025'
+      - 1025:1025
+      - 8025:8025
     volumes:
       - mailhog_volume:/maildir
     command: ['-storage=maildir', '-maildir-path=/maildir']
@@ -258,7 +209,7 @@ services:
   elasticsearch7:
     container_name: elasticsearch7
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.1
-    restart: always
+    restart: unless-stopped
     networks:
       bridge:
         ipv4_address: 137.172.17.92
@@ -277,28 +228,28 @@ services:
 #  redis:
 #    container_name: redis
 #    image: redis:latest
-#    restart: always
+#    restart: unless-stopped
 #    networks:
 #      - bridge
 
 #  memcached:
 #    container_name: memcached
 #    image: memcached:1.5
-#    restart: always
+#    restart: unless-stopped
 #    networks:
 #      - bridge
 
 #  rabbitmq:
 #    container_name: rabbitmq
 #    image: rabbitmq:management
-#    restart: always
+#    restart: unless-stopped
 #    hostname: rabbitmq
 #    networks:
 #      bridge:
 #        ipv4_address: 137.172.17.72
 #    ports:
-#      - '15672:15672'
-#      - '5672:5672'
+#      - 15672:15672
+#      - 5672:5672
 #    environment:
 #      - RABBITMQ_DEFAULT_USER=root
 #      - RABBITMQ_DEFAULT_PASS=root
