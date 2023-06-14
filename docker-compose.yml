@@ -138,9 +138,6 @@ services:
     networks:
       bridge:
         ipv4_address: 137.172.17.80
-    ports:
-      - 8080:80
-      - 443:443
     volumes:
       - /var/www/hosts:/etc/nginx/conf.d
       - /var/www/html:/var/www/html
@@ -199,9 +196,6 @@ services:
     networks:
       bridge:
         ipv4_address: 137.172.17.25
-    ports:
-      - 1025:1025
-      - 8025:8025
     volumes:
       - mailhog_volume:/maildir
     command: ['-storage=maildir', '-maildir-path=/maildir']
@@ -247,9 +241,6 @@ services:
 #    networks:
 #      bridge:
 #        ipv4_address: 137.172.17.72
-#    ports:
-#      - 15672:15672
-#      - 5672:5672
 #    environment:
 #      - RABBITMQ_DEFAULT_USER=root
 #      - RABBITMQ_DEFAULT_PASS=root
